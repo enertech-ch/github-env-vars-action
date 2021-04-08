@@ -1,6 +1,7 @@
 // Franz Diebold
 
 const core = require('@actions/core');
+const github = require('@actions/github');
 
 /**
  * Slugify a given string.
@@ -205,6 +206,23 @@ try {
   action = process.env.GITHUB_ACTION;
   core.exportVariable('CI_ACTION', action);
   core.info(`Set CI_ACTION=${process.env.CI_ACTION}`);
+
+  primaryRefName = process.env.GITHUB_HEAD_REF || process.env.CI_REF_NAME;
+
+  if (primaryRefName) {
+    core.exportVariable('CI_PRIMARY_REF', primaryRefName);
+    core.info(`Set CI_PRIMARY_REF=${process.env.CI_PRIMARY_REF}`);
+
+    core.exportVariable('CI_PRIMARY_REF_SLUG', slugify(primaryRefName));
+    core.info(`Set CI_PRIMARY_REF_SLUG=${process.env.CI_PRIMARY_REF_SLUG}`);
+  }
+
+  primarySha = (github.context.eventName === 'pull_request') ?
+      github.context.payload.pull_request.head.sha :
+      sha;
+
+  core.exportVariable('CI_PRIMARY_SHA', primarySha);
+  core.info(`Set CI_PRIMARY_SHA=${process.env.CI_TRIGGER_BRANCH_SHA}`);
 } catch (error) {
   core.setFailed(error.message);
 }

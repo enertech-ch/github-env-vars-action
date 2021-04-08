@@ -23,7 +23,8 @@
   },
   "homepage": "https://github.com/FranzDiebold/github-env-vars-action#readme",
   "dependencies": {
-    "@actions/core": "^1.2.6"
+    "@actions/core": "^1.2.6",
+    "@actions/github": "^4.0.0"
   },
   "devDependencies": {
     "@vercel/ncc": "^0.25.1",
