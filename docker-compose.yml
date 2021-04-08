@@ -1,0 +1,9 @@
+# docker-compose run workspace
+services:
+  workspace:
+    image: node:slim
+    user: "node"
+    volumes:
+      - ${PWD}:/home/node/app:delegated
+    working_dir: /home/node/app
+    command: bash
